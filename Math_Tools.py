@@ -635,9 +635,9 @@ class Win4:
             self.error1 = tk.Toplevel(window)
             self.error1.resizable(False, False)  # window size cant change
             self.error1.title('error 404')  # name of window
-            self.tk.Label(self.error1, text='error 404 something went very wrong ¯\_(ツ)_/¯').pack()  # message
+            self.tk.Label(self.error1, text='error 404 something went very wrong ¯\_(ツ)_/¯').pack()  
             self.tk.Label(self.error1,
-                          text='this error should not be possible if you get it you did something very wrong').pack()  # message
+                          text='this error should not be possible if you get it you did something very wrong').pack()  
             self.error1.after(5000, self.error1.destroy)  # window will close in 5 seconds
 
         if not self.stat:
