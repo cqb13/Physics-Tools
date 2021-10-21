@@ -3,6 +3,7 @@ import tkinter as tk
 import webbrowser
 import pyperclip
 import math
+import sys
 
 
 # auto-py-to-exe
@@ -19,6 +20,8 @@ class Win1:
         self.github.place(x=5, y=5)
         self.butnew("Calculator", "2", Win2)
         self.butnew("Unit Conversion", "3", Win3)
+        self.butnew("Speed Calculations", "5", Win5)
+        self.butnew("Velocity Calculations", "6", Win6)
         self.butnew("Pythagorean Theorem", "4", Win4)
         self.butnew2("About", "A", WinA)
         self.button = tk.Button()
@@ -55,12 +58,12 @@ def latest_release():
 
 
 def end():
-    exit()
+    sys.exit()
 
 
 # Calculator (done)
 class Win2:
-    def __init__(self, master, number):  # does things with numbers
+    def __init__(self, master, number):  # Calculator
         self.tk = tk
         self.var1 = tk.IntVar()
         self.number = number
@@ -79,15 +82,15 @@ class Win2:
         self.op_pic = tk.Label(self.frame, text="pick an operation")  # label for menu
         self.op_pic.pack()
         self.operations = [  # drop down menu with the operations
-            "+",
-            "-",
-            "*",
-            "/",
-            "²",
-            "³",
-            "√",
-            "d to a/b",
-            "a/b to d"
+            "+",  # 0
+            "-",  # 1
+            "*",  # 2
+            "/",  # 3
+            "²",  # 4
+            "³",  # 5
+            "√",  # 6
+            "d to a/b",  # 7
+            "a/b to d"  # 8
         ]
         self.variable = tk.StringVar(master)
         self.variable.set(self.operations[0])  # defualt option
@@ -115,89 +118,65 @@ class Win2:
         self.stat = True
         self.n1 = self.num1.get()
         self.n2 = self.num2.get()
-        self.fraction1 = (str(float(Fraction(self.n1))))  # number format
-        self.fraction2 = (str(float(Fraction(self.n2))))  # number format
-        if self.n1 == "":  # if the first number is not found it will stop here
-            self.stat = False  # for error not show
-            self.error1 = tk.Toplevel(window)
-            self.error1.resizable(False, False)  # window size cant be changed
-            self.error1.title('error 404')  # name of widnow
-            self.tk.Label(self.error1, text='error 404 first number not found ¯\_(ツ)_/¯').pack()  # message
-            self.tk.Label(self.error1, text='please enter the first number and try again').pack()  # message
-            self.error1.after(5000, self.error1.destroy)  # window will close in 5 seconds
-        elif self.n2 == "" and self.variable.get() == (self.operations[0]):  # if first number not found for addition
-            self.stat = False  # for error not show
-            self.error2 = tk.Toplevel(window)
-            self.error2.resizable(False, False)  # window size cant change
-            self.error2.title('error 404')  # name of window
-            self.tk.Label(self.error2, text='error 404 second number not found ¯\_(ツ)_/¯').pack()  # message
-            self.tk.Label(self.error2,
-                          text='this operation needs a second number please enter a second number and try again').pack()  # message
-            self.error2.after(5000, self.error2.destroy)  # window will close in 5 seconds
-        elif self.n2 == "" and self.variable.get() == (self.operations[1]):  # first number not found for subtraction
-            self.stat = False  # error not show
-            self.error3 = tk.Toplevel(window)
-            self.error3.resizable(False, False)  # window size cant change
-            self.error3.title('error 404')  # name of window
-            self.tk.Label(self.error3, text='error 404 second number not found ¯\_(ツ)_/¯').pack()  # message
-            self.tk.Label(self.error3,
-                          text='this operation needs a second number please enter a second number and try again').pack()  # message
-            self.error3.after(5000, self.error3.destroy)  # window will close in 5 seconds
-        elif self.n2 == "" and self.variable.get() == (self.operations[2]):  # first number not found for multiplication
-            self.stat = False  # error not show
-            self.error4 = tk.Toplevel(window)
-            self.error4.resizable(False, False)  # window size cant change
-            self.error4.title('error 404')  # name of window
-            self.tk.Label(self.error4, text='error 404 second number not found ¯\_(ツ)_/¯').pack()  # message
-            self.tk.Label(self.error4,
-                          text='this operation needs a second number please enter a second number and try again').pack()  # message
-            self.error4.after(5000, self.error4.destroy)  # window will close in 5 seconds
-        elif self.n2 == "" and self.variable.get() == (self.operations[3]):  # first number not found for division
-            self.stat = False  # error not show
-            self.error5 = tk.Toplevel(window)
-            self.error5.resizable(False, False)  # window size cant change
-            self.error5.title('error 404')  # window name
-            self.tk.Label(self.error5, text='error 404 second number not found ¯\_(ツ)_/¯').pack()  # message
-            self.tk.Label(self.error5,
-                          text='this operation needs a second number please enter a second number and try again').pack()  # message
-            self.error5.after(5000, self.error5.destroy)  # window will close in 5 seconds
-        elif self.n1 == '0' and self.n2 == '0' and self.variable.get() == (self.operations[3]):
-            self.stat = False  # error not show
-            # the thing that siri says when u ask 0 / 0
-            self.popup0 = tk.Toplevel(window)
-            self.popup0.resizable(False, False)  # window size cant change
-            self.popup0.title('is it siri?')  # name of window
-            self.tk.Label(self.popup0,
-                          text='Imagine that you have 0 cookies and you split them evenly among 0 friends.').pack()  # message
-            self.tk.Label(self.popup0, text='How many cookies does each person get?').pack()  # message
-            self.tk.Label(self.popup0, text='See? It doesnt make sense.').pack()  # mesage
-            self.tk.Label(self.popup0,
-                          text='And Cookie Monster is sad that there are no cookies, and you are sad that you have no friends.').pack()  # message
-            self.popup0.after(10000, self.popup0.destroy)  # window will close in 10 seconds
-        elif self.variable.get() == (self.operations[0]):  # addition
-            self.result = (Fraction(self.fraction1) + Fraction(self.fraction2))
-        elif self.variable.get() == (self.operations[1]):  # subtraction
-            self.result = (Fraction(self.fraction1) - Fraction(self.fraction2))
-        elif self.variable.get() == (self.operations[2]):  # multiplication
-            self.result = (Fraction(self.fraction1) * Fraction(self.fraction2))
-        elif self.variable.get() == (self.operations[3]):  # division
-            self.result = (Fraction(self.fraction1) / Fraction(self.fraction2))
-        elif self.variable.get() == (self.operations[4]):  # cubing
-            self.result = (str(float(self.n1) * float(self.n1)))
-        elif self.variable.get() == (self.operations[5]):  # squaring
-            self.result = (str(float(self.n1) * float(self.n1) * float(self.n1)))
-        elif self.variable.get() == (self.operations[6]):  # square root (fix needing second num)
-            self.result = (math.sqrt(float(self.n1)))
-        elif self.variable.get() == (self.operations[7]):  # decimal to fraction
-            self.result = (Fraction(str(float(self.n1))))
-        elif self.variable.get() == (self.operations[8]):  # fraction to a decimal
-            self.result = (str(float(Fraction(self.n1))))
-        else:  # error is not pisible in this program but if you mess with it and break something this will tell you
+        if self.n1 == '':
             self.stat = False  # error not show
             self.error1 = tk.Toplevel(window)
             self.error1.resizable(False, False)  # window size cant change
             self.error1.title('error 404')  # name of window
-            self.tk.Label(self.error1, text='error 404 operation not found ¯\_(ツ)_/¯').pack()  # message
+            self.tk.Label(self.error1, text='error 404 first number not found  ¯\_(ツ)_/¯').pack()
+            self.tk.Label(self.error1,
+                          text='first number is needed for this operation enter first number and try again').pack()
+            self.error1.after(5000, self.error1.destroy)  # window will close in 5 seconds
+        elif self.n2 == '' and self.variable.get() == (self.operations[0]) or self.n2 == '' and self.variable.get() == (
+                self.operations[1]) or self.n2 == '' and self.variable.get() == (
+                self.operations[2]) or self.n2 == '' and self.variable.get() == (
+                self.operations[3]) or self.n2 == '' and self.variable.get() == (
+                self.operations[7]) or self.n2 == '' and self.variable.get() == (self.operations[8]):
+            self.stat = False  # error not show
+            self.error1 = tk.Toplevel(window)
+            self.error1.resizable(False, False)  # window size cant change
+            self.error1.title('error 404')  # name of window
+            self.tk.Label(self.error1, text='error 404 second number not found  ¯\_(ツ)_/¯').pack()
+            self.tk.Label(self.error1,
+                          text='second number is needed for this operation enter second number and try again').pack()
+            self.error1.after(5000, self.error1.destroy)  # window will close in 5 seconds
+        else:
+            pass
+
+        if self.variable.get() == (self.operations[0]):  # addition
+            self.fraction1 = (float(self.n1))  # number format
+            self.fraction2 = (float(self.n2))  # number format
+            self.result = self.fraction1 + self.fraction2
+        elif self.variable.get() == (self.operations[1]):  # subtraction
+            self.fraction1 = (float(self.n1))  # number format
+            self.fraction2 = (float(self.n2))  # number format
+            self.result = self.fraction1 - self.fraction2
+        elif self.variable.get() == (self.operations[2]):  # multiply
+            self.fraction1 = (float(self.n1))  # number format
+            self.fraction2 = (float(self.n2))  # number format
+            self.result = self.fraction1 * self.fraction2
+        elif self.variable.get() == (self.operations[3]):  # divide
+            self.fraction1 = (float(self.n1))  # number format
+            self.fraction2 = (float(self.n2))  # number format
+            self.result = self.fraction1 / self.fraction2
+        elif self.variable.get() == (self.operations[4]):  # squaring
+            self.fraction1 = (float(self.n1))  # number format
+            self.result = self.fraction1 * self.fraction1
+        elif self.variable.get() == (self.operations[5]):  # cubing
+            self.fraction1 = (float(self.n1))  # number format
+            self.result = self.fraction1 * self.fraction1 * self.fraction1
+        elif self.variable.get() == (self.operations[7]):  # decimal to fraction
+            self.fraction1 = (float(self.n1))  # number format
+            self.result = (Fraction(str(float(self.n1))))
+        elif self.variable.get() == (self.operations[8]):  # fraction to a decimal
+            self.fraction1 = (float(self.n1))  # number format
+            self.result = (str(float(Fraction(self.n1))))
+        else:  # this error should not be possible if you get it you did something very wrong
+            self.stat = False  # error not show
+            self.error1 = tk.Toplevel(window)
+            self.error1.resizable(False, False)  # window size cant change
+            self.error1.title('error 404')  # name of window
+            self.tk.Label(self.error1, text='error 404 something went very wrong ¯\_(ツ)_/¯').pack()  # message
             self.tk.Label(self.error1,
                           text='this error should not be possible if you get it you did something very wrong').pack()  # message
             self.error1.after(5000, self.error1.destroy)  # window will close in 5 seconds
@@ -219,27 +198,27 @@ class Win2:
         self.help_p = tk.Toplevel(window)
         self.help_p.resizable(False, False)  # window size cant change
         self.help_p.title('help')  # name of window
-        self.tk.Label(self.help_p, text='help').pack()  # message
-        self.tk.Label(self.help_p, text='window will close in 20 seconds').pack()  # message
-        self.tk.Label(self.help_p, text='use a/b format to use fractions in operations').pack()  # message
-        self.tk.Label(self.help_p, text='+ = addition').pack()  # message
-        self.tk.Label(self.help_p, text='- = subtraction').pack()  # message
-        self.tk.Label(self.help_p, text='* = multiplication').pack()  # message
-        self.tk.Label(self.help_p, text='/ = division').pack()  # message
-        self.tk.Label(self.help_p, text='² = squaring a number(only uses first number)').pack()  # message
-        self.tk.Label(self.help_p, text='³ = cubing a number(only uses first number )').pack()  # message
-        self.tk.Label(self.help_p, text='√ = square root of a number(only uses first number)').pack()  # message
-        self.tk.Label(self.help_p, text='d to a/b = decimal to a fraction(only uses first number)').pack()  # message
-        self.tk.Label(self.help_p, text='a/b to d = fraction to a decimal(only uses first number)').pack()  # message
+        self.tk.Label(self.help_p, text='help').pack()
+        self.tk.Label(self.help_p, text='window will close in 20 seconds').pack()
+        self.tk.Label(self.help_p, text='use a/b format to use fractions in operations').pack()
+        self.tk.Label(self.help_p, text='+ = addition').pack()
+        self.tk.Label(self.help_p, text='- = subtraction').pack()
+        self.tk.Label(self.help_p, text='* = multiplication').pack()
+        self.tk.Label(self.help_p, text='/ = division').pack()
+        self.tk.Label(self.help_p, text='² = squaring a number(only uses first number)').pack()
+        self.tk.Label(self.help_p, text='³ = cubing a number(only uses first number )').pack()
+        self.tk.Label(self.help_p, text='√ = square root of a number(only uses first number)').pack()
+        self.tk.Label(self.help_p, text='d to a/b = decimal to a fraction(only uses first number)').pack()
+        self.tk.Label(self.help_p, text='a/b to d = fraction to a decimal(only uses first number)').pack()
         self.help_p.after(10000, self.help_p.destroy)  # window will close in 10 seconds
 
     def close_window(self):  # closes window
         self.master.destroy()
 
 
-# Unit Conversion
+# Unit Conversion (done)
 class Win3:
-    def __init__(self, master, number):  # does things with numbers
+    def __init__(self, master, number):  # unit conversions
         self.tk = tk
         self.var1 = tk.IntVar()
         self.number = number
@@ -312,7 +291,8 @@ class Win3:
                 self.units2[4]) or self.variable.get() == (self.units[5]) and self.variable2.get() == (
                 self.units2[5]) or self.variable.get() == (self.units[6]) and self.variable2.get() == (
                 self.units2[6]) or self.variable.get() == (self.units[7]) and self.variable2.get() == (
-                self.units2[7]) or self.variable.get() == (self.units[8]) and self.variable2.get() == (self.units2[8]):
+                self.units2[7]) or self.variable.get() == (self.units[8]) and self.variable2.get() == (
+                self.units2[8]):  # converting to same unit error
             self.stat = False  # for error not show
             self.error1 = tk.Toplevel(window)
             self.error1.resizable(False, False)  # window size cant be changed
@@ -618,8 +598,9 @@ class Win4:
             self.error1 = tk.Toplevel(window)
             self.error1.resizable(False, False)  # window size cant be changed
             self.error1.title('error 404')  # name of widnow
-            self.tk.Label(self.error1, text='error 404 options not found ¯\_(ツ)_/¯').pack()  # message
-            self.tk.Label(self.error1, text='please select a valid option').pack()  # message
+            self.tk.Label(self.error1, text='error 404 operation not compatable ¯\_(ツ)_/¯').pack()  # message
+            self.tk.Label(self.error1,
+                          text='please entera  valid operation combination and try again').pack()  # message
             self.error1.after(5000, self.error1.destroy)  # window will close in 5 seconds
         elif (self.var1.get() == 1) and (self.var2.get() == 1) and (self.var3.get() == 0) and (
                 self.var4.get() == 0):  # find C square root ans
@@ -676,6 +657,238 @@ class Win4:
         self.master.destroy()
 
 
+# Speed Calculations (done)
+class Win5:
+    def __init__(self, master, number):  # Speed Calculations
+        self.tk = tk
+        self.var1 = tk.IntVar()
+        self.var2 = tk.IntVar()
+        self.var3 = tk.IntVar()
+        self.number = number
+        self.master = master
+        self.master.geometry("400x450+200+200")  # window size
+        self.master.resizable(False, False)  # window size cant be changed
+        self.frame = tk.Frame(self.master)
+        self.name = tk.Label(self.frame, text="Speed Calculations")  # name of script
+        self.name.pack()
+        self.formula = tk.Label(self.frame, text="formula for speed is s=d/t",
+                                font=("arial", 10))  # how to use
+        self.formula.pack()
+        self.var_stand_for = tk.Label(self.frame, text="s(speed) d(distance) t(time)",
+                                      font=("arial", 10))  # what the vars mean
+        self.var_stand_for.pack()
+        self.about = tk.Label(self.frame, text="press clear before running again", font=("arial", 10))  # how to use
+        self.about.pack()
+        self.find_c = tk.Checkbutton(self.frame, text='find s', onvalue=1, offvalue=0,
+                                     variable=self.var1)
+        self.find_c.toggle()
+        self.find_c.pack()
+        self.find_a = tk.Checkbutton(self.frame, text='find d', onvalue=1, offvalue=0,
+                                     variable=self.var2)
+        self.find_a.pack()
+        self.find_b = tk.Checkbutton(self.frame, text='find t', onvalue=1, offvalue=0,
+                                     variable=self.var3)
+        self.find_b.pack()
+        self.label1 = tk.Label(self.frame, text='enter the value of d', font=('arial', 10))
+        self.label1.pack()
+        self.amount_a = tk.Entry(self.frame, text='unit s', font=('arial', 10))
+        self.amount_a.pack()
+        self.label2 = tk.Label(self.frame, text='enter the value of t', font=('arial', 10))
+        self.label2.pack()
+        self.amount_b = tk.Entry(self.frame, text='unit d', font=('arial', 10))
+        self.amount_b.pack()
+        self.label3 = tk.Label(self.frame, text='enter the value of s', font=('arial', 10))
+        self.label3.pack()
+        self.amount_c = tk.Entry(self.frame, text='unit t', font=('arial', 10))
+        self.amount_c.pack()
+        self.solve = tk.Button(self.frame, text='Solve', command=self.maths)
+        self.solve.pack()
+        self.copyp = tk.Button(self.frame, text=f"Copy Answer", command=self.copy_answer)  # button to copy password
+        self.copyp.pack()
+        self.clear = tk.Button(self.frame, text=f"Clear", command=self.clear_results)
+        self.clear.pack()  # will clear answers(temporary till it does it on its own)
+        self.quit = tk.Button(self.frame, text=f"Close", command=self.close_window)  # button to close window
+        self.quit.pack()
+        self.ans = tk.Label(self.frame, text=f'the answer is', font=('arial', 10))
+        self.ans.pack()
+        self.frame.pack()
+
+    def maths(self):
+        self.stat = True
+        self.n1 = self.amount_a.get()
+        self.n2 = self.amount_b.get()
+        self.n3 = self.amount_c.get()
+        if self.var1.get() == 1 and self.n1 == "" and self.n2 == "" or self.var1.get() == 1 and self.n1 == "" or self.var1.get() == 1 and self.n2 == "" \
+                or self.var2.get() == 1 and self.n2 == "" and self.n3 == "" or self.var2.get() == 1 and self.n2 == "" or self.var2.get() == 1 and self.n3 == "" \
+                or self.var3.get() == 1 and self.n1 == "" and self.n3 == "" or self.var3.get() == 1 and self.n1 == "" or self.var3.get() == 1 and self.n3 == "":  # numbers not found in operations that need them
+            self.stat = False  # for error not show
+            self.error1 = tk.Toplevel(window)
+            self.error1.resizable(False, False)  # window size cant be changed
+            self.error1.title('error 404')  # name of widnow
+            self.tk.Label(self.error1, text='error 404 number not found ¯\_(ツ)_/¯').pack()  # message
+            self.tk.Label(self.error1, text='please enter required numbers and try again').pack()  # message
+            self.error1.after(5000, self.error1.destroy)  # window will close in 5 seconds
+        elif self.var1.get() == 1 and self.var2.get() == 1 and self.var3.get() == 1 or self.var1.get() == 0 and self.var2.get() == 0 and self.var3.get() == 0 \
+                or self.var1.get() == 0 and self.var2.get() == 1 and self.var3.get() == 1 \
+                or self.var1.get() == 1 and self.var2.get() == 0 and self.var3.get() == 1 \
+                or self.var1.get() == 1 and self.var2.get() == 1 and self.var3.get() == 0:  # invalid operation combination
+            self.stat = False  # for error not show
+            self.error1 = tk.Toplevel(window)
+            self.error1.resizable(False, False)  # window size cant be changed
+            self.error1.title('error 404')  # name of widnow
+            self.tk.Label(self.error1, text='error 404 operation not compatable ¯\_(ツ)_/¯').pack()  # message
+            self.tk.Label(self.error1,
+                          text='please enter a valid operation combination and try again').pack()  # message
+            self.error1.after(5000, self.error1.destroy)  # window will close in 5 seconds
+        elif self.var1.get() == 1 and self.var2.get() == 0 and self.var3.get() == 0:  # find speed
+            self.result = int(float(self.n1)) / int(float(self.n2))
+        elif self.var1.get() == 0 and self.var2.get() == 1 and self.var3.get() == 0:  # find distance
+            self.result = int(float(self.n3)) * int(float(self.n2))
+        elif self.var1.get() == 0 and self.var2.get() == 0 and self.var3.get() == 1:  # find time
+            self.result = int(float(self.n3)) * int(float(self.n1))
+        else:  # this error should not be possible if you get it you did something very wrong
+            self.stat = False  # error not show
+            self.error1 = tk.Toplevel(window)
+            self.error1.resizable(False, False)  # window size cant change
+            self.error1.title('error 404')  # name of window
+            self.tk.Label(self.error1, text='error 404 something went very wrong ¯\_(ツ)_/¯').pack()  # message
+            self.tk.Label(self.error1,
+                          text='this error should not be possible if you get it you did something very wrong').pack()  # message
+            self.error1.after(5000, self.error1.destroy)  # window will close in 5 seconds
+
+        if not self.stat:
+            print('')  # error not show
+        else:
+            self.results = tk.Label(self.frame, text=self.result)  # prints result
+            self.results.pack()
+            self.ans = int(self.result)
+
+    def copy_answer(self):
+        pyperclip.copy(self.ans)
+
+    def clear_results(self):
+        self.results.destroy()
+
+    def close_window(self):  # closes window
+        self.master.destroy()
+
+
+# Velocity Calculations (done)
+class Win6:
+    def __init__(self, master, number):  # Velocity Calculations
+        self.tk = tk
+        self.var1 = tk.IntVar()
+        self.var2 = tk.IntVar()
+        self.var3 = tk.IntVar()
+        self.number = number
+        self.master = master
+        self.master.geometry("400x450+200+200")  # window size
+        self.master.resizable(False, False)  # window size cant be changed
+        self.frame = tk.Frame(self.master)
+        self.name = tk.Label(self.frame, text="Velocity Calculations")  # name of script
+        self.name.pack()
+        self.formula = tk.Label(self.frame, text="formula for velocity is v=△x/△t",
+                                font=("arial", 10))  # how to use
+        self.formula.pack()
+        self.var_stand_for = tk.Label(self.frame, text="v(velocity) △x(displacement) △t(time)",
+                                      font=("arial", 10))  # what the vars mean
+        self.var_stand_for.pack()
+        self.about = tk.Label(self.frame, text="press clear before running again", font=("arial", 10))  # how to use
+        self.about.pack()
+        self.find_c = tk.Checkbutton(self.frame, text='find s', onvalue=1, offvalue=0,
+                                     variable=self.var1)
+        self.find_c.toggle()
+        self.find_c.pack()
+        self.find_a = tk.Checkbutton(self.frame, text='find △x', onvalue=1, offvalue=0,
+                                     variable=self.var2)
+        self.find_a.pack()
+        self.find_b = tk.Checkbutton(self.frame, text='find △t', onvalue=1, offvalue=0,
+                                     variable=self.var3)
+        self.find_b.pack()
+        self.label1 = tk.Label(self.frame, text='enter the value of d', font=('arial', 10))
+        self.label1.pack()
+        self.amount_a = tk.Entry(self.frame, text='unit v', font=('arial', 10))
+        self.amount_a.pack()
+        self.label2 = tk.Label(self.frame, text='enter the value of t', font=('arial', 10))
+        self.label2.pack()
+        self.amount_b = tk.Entry(self.frame, text='unit △x', font=('arial', 10))
+        self.amount_b.pack()
+        self.label3 = tk.Label(self.frame, text='enter the value of s', font=('arial', 10))
+        self.label3.pack()
+        self.amount_c = tk.Entry(self.frame, text='unit △t', font=('arial', 10))
+        self.amount_c.pack()
+        self.solve = tk.Button(self.frame, text='Solve', command=self.maths)
+        self.solve.pack()
+        self.copyp = tk.Button(self.frame, text=f"Copy Answer", command=self.copy_answer)  # button to copy password
+        self.copyp.pack()
+        self.clear = tk.Button(self.frame, text=f"Clear", command=self.clear_results)
+        self.clear.pack()  # will clear answers(temporary till it does it on its own)
+        self.quit = tk.Button(self.frame, text=f"Close", command=self.close_window)  # button to close window
+        self.quit.pack()
+        self.ans = tk.Label(self.frame, text=f'the answer is', font=('arial', 10))
+        self.ans.pack()
+        self.frame.pack()
+
+    def maths(self):
+        self.stat = True
+        self.n1 = self.amount_a.get()
+        self.n2 = self.amount_b.get()
+        self.n3 = self.amount_c.get()
+        if self.var1.get() == 1 and self.n1 == "" and self.n2 == "" or self.var1.get() == 1 and self.n1 == "" or self.var1.get() == 1 and self.n2 == "" \
+                or self.var2.get() == 1 and self.n2 == "" and self.n3 == "" or self.var2.get() == 1 and self.n2 == "" or self.var2.get() == 1 and self.n3 == "" \
+                or self.var3.get() == 1 and self.n1 == "" and self.n3 == "" or self.var3.get() == 1 and self.n1 == "" or self.var3.get() == 1 and self.n3 == "":  # numbers not found in operations that need them
+            self.stat = False  # for error not show
+            self.error1 = tk.Toplevel(window)
+            self.error1.resizable(False, False)  # window size cant be changed
+            self.error1.title('error 404')  # name of widnow
+            self.tk.Label(self.error1, text='error 404 number not found ¯\_(ツ)_/¯').pack()  # message
+            self.tk.Label(self.error1, text='please enter required numbers and try again').pack()  # message
+            self.error1.after(5000, self.error1.destroy)  # window will close in 5 seconds
+        elif self.var1.get() == 1 and self.var2.get() == 1 and self.var3.get() == 1 or self.var1.get() == 0 and self.var2.get() == 0 and self.var3.get() == 0 \
+                or self.var1.get() == 0 and self.var2.get() == 1 and self.var3.get() == 1 \
+                or self.var1.get() == 1 and self.var2.get() == 0 and self.var3.get() == 1 \
+                or self.var1.get() == 1 and self.var2.get() == 1 and self.var3.get() == 0:  # invalid operation combination
+            self.stat = False  # for error not show
+            self.error1 = tk.Toplevel(window)
+            self.error1.resizable(False, False)  # window size cant be changed
+            self.error1.title('error 404')  # name of widnow
+            self.tk.Label(self.error1, text='error 404 operation not compatable ¯\_(ツ)_/¯').pack()  # message
+            self.tk.Label(self.error1,
+                          text='please enter a valid operation combination and try again').pack()  # message
+            self.error1.after(5000, self.error1.destroy)  # window will close in 5 seconds
+        elif self.var1.get() == 1 and self.var2.get() == 0 and self.var3.get() == 0:  # find velocity
+            self.result = int(float(self.n1)) / int(float(self.n2))
+        elif self.var1.get() == 0 and self.var2.get() == 1 and self.var3.get() == 0:  # find displacement
+            self.result = int(float(self.n3)) * int(float(self.n2))
+        elif self.var1.get() == 0 and self.var2.get() == 0 and self.var3.get() == 1:  # find time
+            self.result = int(float(self.n3)) * int(float(self.n1))
+        else:  # this error should not be possible if you get it you did something very wrong
+            self.stat = False  # error not show
+            self.error1 = tk.Toplevel(window)
+            self.error1.resizable(False, False)  # window size cant change
+            self.error1.title('error 404')  # name of window
+            self.tk.Label(self.error1, text='error 404 something went very wrong ¯\_(ツ)_/¯').pack()  # message
+            self.tk.Label(self.error1,
+                          text='this error should not be possible if you get it you did something very wrong').pack()  # message
+            self.error1.after(5000, self.error1.destroy)  # window will close in 5 seconds
+
+        if not self.stat:
+            print('')  # error not show
+        else:
+            self.results = tk.Label(self.frame, text=self.result)  # prints result
+            self.results.pack()
+            self.ans = int(self.result)
+
+    def copy_answer(self):
+        pyperclip.copy(self.ans)
+
+    def clear_results(self):
+        self.results.destroy()
+
+    def close_window(self):  # closes window
+        self.master.destroy()
+
+
 # About
 class WinA:
     def __init__(self, master, number):
@@ -693,7 +906,7 @@ class WinA:
                               text='its goal is to put all the math tools you could ever need in one place',
                               font=('arial', 10))
         self.line1.pack()
-        self.line1 = tk.Label(self.frame, text='you can find the code and past versions of calculators on my github',
+        self.line1 = tk.Label(self.frame, text='you can find the code and past versions of math tools on my github',
                               font=('arial', 10))
         self.line1.pack()
         self.cqb13_github = tk.Button(self.frame, text=f"cqb13 github", command=github)  # button to github
@@ -707,7 +920,7 @@ class WinA:
 
 
 window = tk.Tk()
-window.title("Math Tools V.3")
+window.title("Math Tools V.5")
 window.resizable(False, False)
 app = Win1(window)
 window.mainloop()
