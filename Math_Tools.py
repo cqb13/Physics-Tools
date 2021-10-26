@@ -1,4 +1,5 @@
 from fractions import Fraction
+from random import *
 import tkinter as tk
 import webbrowser
 import pyperclip
@@ -23,6 +24,7 @@ class Win1:
         self.butnew("Speed Calculations", "5", Win5)
         self.butnew("Velocity Calculations", "6", Win6)
         self.butnew("Pythagorean Theorem", "4", Win4)
+        self.butnew("Random Number Generator", "7", Win7)
         self.butnew2("About", "A", WinA)
         self.button = tk.Button()
         self.release = tk.Button(text=f"Releases", command=latest_release)
@@ -886,6 +888,125 @@ class Win6:
         self.results.destroy()
 
     def close_window(self):  # closes window
+        self.master.destroy()
+        
+       
+# Random Number Generator (done)
+class Win7:
+    def __init__(self, master, number):  # generates a random password
+        self.tk = tk
+        self.number = number
+        self.master = master
+        self.random = random
+        self.var = tk.DoubleVar()
+        self.var1 = tk.IntVar()
+        self.var2 = tk.IntVar()
+        self.var3 = tk.IntVar()
+        self.master.geometry("400x450+200+200")  # window size
+        self.master.resizable(False, False)  # window size cant change
+        self.frame = tk.Frame(self.master)
+        self.name = tk.Label(self.frame, text="Random Number Generator")
+        self.name.pack()
+        self.about = tk.Label(self.frame, text="generates a random number", font=("arial", 10))
+        self.about.pack()
+        self.about2 = tk.Label(self.frame, text="press clear before running again", font=("arial", 10))
+        self.about2.pack()
+        self.about_s = tk.Label(self.frame, text="pick the length of the number",
+                                font=("arial", 10))  # label for scale
+        self.about_s.pack()
+        self.Slider = tk.Scale(self.frame, orient=tk.HORIZONTAL, length=32 * 10, from_=0, to=32,
+                               variable=self.var)  # scale
+        self.Slider.pack()
+        self.pos_neg = tk.Checkbutton(self.frame, text='number will be positive or negative', onvalue=1, offvalue=0,
+                                      variable=self.var1)
+        self.pos_neg.toggle()  # on when load
+        self.pos_neg.pack()
+        self.pos = tk.Checkbutton(self.frame, text='number will be positive', onvalue=1, offvalue=0,
+                                  variable=self.var2)
+        self.pos.pack()
+        self.neg = tk.Checkbutton(self.frame, text='number will be negative', onvalue=1, offvalue=0,
+                                  variable=self.var3)
+        self.neg.pack()
+        self.gen = tk.Button(self.frame, text=f"Generate", command=self.number_gen)
+        self.gen.pack()
+        self.copyp = tk.Button(self.frame, text=f"Copy Password", command=self.copy_password)
+        self.copyp.pack()
+        self.clear = tk.Button(self.frame, text=f"Clear", command=self.clear_password)
+        self.clear.pack()
+        self.quit = tk.Button(self.frame, text=f"Close", command=self.close_window)
+        self.quit.pack()
+        self.frame.pack()
+
+    def number_gen(self):
+        self.stat = True
+        self.digits = "1234567890"  # list of numbers
+        self.ints_pos_neg = "12"  # 1 is ppos 2 is neg
+        self.val = "1"
+        if int(self.var.get()) == 0:  # no number length
+            self.stat = False  # error not show
+            self.error1 = tk.Toplevel(window)
+            self.error1.resizable(False, False)  # window size cant change
+            self.error1.title('error 404')  # name of window
+            self.tk.Label(self.error1, text='error 404 paramater not found ¯\_(ツ)_/¯').pack()
+            self.tk.Label(self.error1, text='please select a length longer than 0 for your number and try again').pack()
+            self.error1.after(5000, self.error1.destroy)
+        elif (self.var1.get() == 1) and (self.var2.get() == 1) and (self.var3.get() == 1) or (
+                self.var1.get() == 0) and (self.var2.get() == 1) and (self.var3.get() == 1) or (
+                self.var1.get() == 0) and (self.var2.get() == 0) and (self.var3.get() == 0) or (
+                self.var1.get() == 1) and (self.var2.get() == 1) and (self.var3.get() == 0) or (
+                self.var1.get() == 1) and (self.var2.get() == 0) and (self.var3.get() == 1):
+            self.stat = False  # error not show
+            self.error1 = tk.Toplevel(window)
+            self.error1.resizable(False, False)  # window size cant change
+            self.error1.title('error 404')  # name of window
+            self.tk.Label(self.error1, text='error 404 paramater not found ¯\_(ツ)_/¯').pack()
+            self.tk.Label(self.error1, text='please enter a valid paramater combination and try again').pack()
+            self.error1.after(5000, self.error1.destroy)
+        elif (self.var1.get() == 1) and (self.var2.get() == 0) and (self.var3.get() == 0):
+            characters = self.digits
+            number = "".join(choice(characters) for _ in range(int(self.var.get())))
+            self.result_pos_neg = number
+        elif (self.var1.get() == 0) and (self.var2.get() == 1) and (self.var3.get() == 0):
+            characters = self.digits
+            number = "".join(choice(characters) for _ in range(int(self.var.get())))
+            self.result = number
+        elif (self.var1.get() == 0) and (self.var2.get() == 0) and (self.var3.get() == 1):
+            characters = self.digits
+            number = "".join(choice(characters) for _ in range(int(self.var.get())))
+            self.result = f'-{number}'
+        else:
+            self.stat = False  # error not show
+            self.error2 = tk.Toplevel(window)
+            self.error2.resizable(False, False)  # window size cant change
+            self.error2.title('error 404')  # name of window
+            self.tk.Label(self.error2, text='error 404 paramater not found ¯\_(ツ)_/¯').pack()
+            self.tk.Label(self.error2, text='please select at least one option and try again').pack()
+            self.error2.after(5000, self.error2.destroy)  # window closes in 5 seconds
+
+        chance = self.ints_pos_neg
+        yes_or_no = "".join(choice(chance) for _ in range(int(self.val)))
+
+        if not self.stat:
+            print('')  # error no show
+        elif yes_or_no == "1":  # makes pso
+            self.result = self.result_pos_neg
+            self.results = tk.Label(self.frame, text=self.result)
+            self.results.pack()
+        elif yes_or_no == "2":  # makes neg
+            self.result = f'-{self.result_pos_neg}'
+            self.results = tk.Label(self.frame, text=self.result)
+            self.results.pack()
+        else:
+            self.results = tk.Label(self.frame, text=self.result)  # result show
+            self.results.pack()
+
+    def copy_password(self):
+        pyperclip.copy(self.result)
+
+    def clear_password(self):
+        self.results.destroy()
+
+    def close_window(self):
         self.master.destroy()
 
 
