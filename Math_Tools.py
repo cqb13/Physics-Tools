@@ -21,6 +21,7 @@ class Win1:
         self.github.place(x=5, y=5)
         self.butnew("Calculator", "2", Win2)
         self.butnew("Unit Conversion", "3", Win3)
+        self.butnew("Percent Calculator", "8", Win8)
         self.butnew("Speed Calculations", "5", Win5)
         self.butnew("Velocity Calculations", "6", Win6)
         self.butnew("Pythagorean Theorem", "4", Win4)
@@ -1010,6 +1011,149 @@ class Win7:
         self.master.destroy()
 
 
+# Percent Calculator (done)
+class Win8:
+    def __init__(self, master, number):  # does math related to percents
+        self.tk = tk
+        self.number = number
+        self.master = master
+        self.var = tk.DoubleVar()
+        self.var1 = tk.IntVar()
+        self.var2 = tk.IntVar()
+        self.var3 = tk.IntVar()
+        self.master.geometry("400x450+200+200")  # window size
+        self.master.resizable(False, False)  # window size cant change
+        self.frame = tk.Frame(self.master)
+        self.name = tk.Label(self.frame, text="Percent Calculator")
+        self.name.pack()
+        self.about = tk.Label(self.frame, text="does math realted to percents", font=("arial", 10))
+        self.about.pack()
+        self.about2 = tk.Label(self.frame, text="press clear before running again", font=("arial", 10))
+        self.about2.pack()
+        self.num1e = tk.Label(self.frame, text="enter first number")  # label for text box
+        self.num1e.pack()
+        self.num1 = tk.Entry(self.frame, text="num1", font=("arial", 10))  # text box
+        self.num1.pack()
+        self.op_pic = tk.Label(self.frame, text="pick an operation")  # label for menu
+        self.op_pic.pack()
+        self.operations = [  # drop down menu with the operations
+            'percent change',  # 0
+            'tax',  # 1
+            'discount',  # 2
+            '% to n',  # 3
+            'n to %'  # 4
+        ]
+        self.variable = tk.StringVar(master)
+        self.variable.set(self.operations[0])  # defualt option
+        self.menu = tk.OptionMenu(self.frame, self.variable, *self.operations)  # where to put the menu
+        self.menu.pack()
+        self.num2e = tk.Label(self.frame, text="enter second number")  # label for text box
+        self.num2e.pack()
+        self.num2 = tk.Entry(self.frame, text="num2", font=("arial", 10))  # where to put second number
+        self.num2.pack()
+        self.gen = tk.Button(self.frame, text=f"Solve", command=self.maths)
+        self.gen.pack()
+        self.copyp = tk.Button(self.frame, text=f"Copy Password", command=self.copy_password)
+        self.copyp.pack()
+        self.clear = tk.Button(self.frame, text=f"Clear", command=self.clear_password)
+        self.clear.pack()
+        self.quit = tk.Button(self.frame, text=f"Close", command=self.close_window)
+        self.quit.pack()
+        self.help = tk.Button(self.frame, text=f" Help ", command=self.help)  # button to open help window
+        self.help.pack()
+        self.answer_name = tk.Label(self.frame, text="the answer is")  # label for answer area
+        self.answer_name.pack()
+        self.frame.pack()
+
+    def maths(self):
+        self.stat = True
+        self.n1 = self.num1.get()
+        self.n2 = self.num2.get()
+        if self.n1 == '':
+            self.stat = False  # error not show
+            self.error1 = tk.Toplevel(window)
+            self.error1.resizable(False, False)  # window size cant change
+            self.error1.title('error 404')  # name of window
+            self.tk.Label(self.error1, text='error 404 first number not found  ¯\_(ツ)_/¯').pack()
+            self.tk.Label(self.error1,
+                          text='first number is needed for this operation enter first number and try again').pack()
+            self.error1.after(5000, self.error1.destroy)  # window will close in 5 seconds
+        elif self.n2 == '' and self.variable.get() == (self.operations[0]) or self.n2 == '' and self.variable.get() == (
+                self.operations[1]) or self.n2 == '' and self.variable.get() == (self.operations[2]):
+            self.stat = False  # error not show
+            self.error1 = tk.Toplevel(window)
+            self.error1.resizable(False, False)  # window size cant change
+            self.error1.title('error 404')  # name of window
+            self.tk.Label(self.error1, text='error 404 second number not found  ¯\_(ツ)_/¯').pack()
+            self.tk.Label(self.error1,
+                          text='second number is needed for this operation enter second number and try again').pack()
+            self.error1.after(5000, self.error1.destroy)  # window will close in 5 seconds
+        else:
+            pass
+
+        if self.variable.get() == (self.operations[0]):  # percent change
+            self.num_m_1 = float(self.n1)
+            self.num_m_2 = float(self.n2)
+            self.temp = self.num_m_1 - self.num_m_2
+            self.temp_2 = self.temp / self.num_m_2
+            self.result = f'{self.temp_2 * 100}%'
+        elif self.variable.get() == (self.operations[1]):  # tax
+            self.num_m_1 = float(self.n1)
+            self.num_m_2 = float(self.n2)
+            self.temp = self.num_m_2 / 100
+            self.temp_2 = self.num_m_1 * self.temp
+            self.result = self.num_m_1 + self.temp_2
+        elif self.variable.get() == (self.operations[2]):  # discount
+            self.num_m_1 = float(self.n1)
+            self.num_m_2 = float(self.n2)
+            self.temp = self.num_m_2 / 100
+            self.temp_2 = self.num_m_1 * self.temp
+            self.result = self.num_m_1 - self.temp_2
+        else:
+            self.num_m_1 = float(self.n1)
+
+        if self.variable.get() == (self.operations[3]):
+            self.result = self.num_m_1 * 100
+        elif self.variable.get() == (self.operations[4]):
+            self.result = f'{self.num_m_1 / 100}%'
+        else:
+            pass
+
+        if not self.stat:
+            print('')
+        else:
+            self.results = tk.Label(self.frame, text=self.result)  # result show
+            self.results.pack()
+
+    def copy_password(self):
+        pyperclip.copy(self.result)
+
+    def clear_password(self):
+        self.results.destroy()
+
+    def help(self):  # help window
+        self.help_p = tk.Toplevel(window)
+        self.help_p.resizable(False, False)  # window size cant change
+        self.help_p.title('help')  # name of window
+        self.tk.Label(self.help_p, text='help').pack()
+        self.tk.Label(self.help_p, text='window will close in 20 seconds').pack()
+        self.tk.Label(self.help_p, text='-- increasing/decreasing help --').pack()
+        self.tk.Label(self.help_p, text='first number should be original value').pack()
+        self.tk.Label(self.help_p, text='second number should be new value').pack()
+        self.tk.Label(self.help_p, text='if the answer is negative it is a percent decrease').pack()
+        self.tk.Label(self.help_p, text='-- tax/discount help --').pack()
+        self.tk.Label(self.help_p, text='first number should be price').pack()
+        self.tk.Label(self.help_p, text='second number should be tax/discount').pack()
+        self.tk.Label(self.help_p, text='-- % to n/n to % --').pack()
+        self.tk.Label(self.help_p, text='only use first numer entry').pack()
+        self.tk.Label(self.help_p, text='% to n percent is in first number').pack()
+        self.tk.Label(self.help_p, text='n to % number is in first number').pack()
+        self.help_p.after(10000, self.help_p.destroy)  # window will close in 10 seconds
+
+    def close_window(self):
+        self.master.destroy()
+        
+        
 # About
 class WinA:
     def __init__(self, master, number):
