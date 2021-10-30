@@ -1185,7 +1185,7 @@ class WinA:
 
 
 window = tk.Tk()
-window.title("Math Tools V.6")
+window.title("Math Tools V.7")
 window.resizable(False, False)
 app = Win1(window)
 window.mainloop()
